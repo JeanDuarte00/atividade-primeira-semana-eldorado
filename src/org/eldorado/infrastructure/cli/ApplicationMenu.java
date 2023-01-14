@@ -1,5 +1,7 @@
 package org.eldorado.infrastructure.cli;
 
+import org.eldorado.usecase.empresa.validador.IValidador;
+
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -7,26 +9,27 @@ public class ApplicationMenu {
 
     Logger LOGGER;
     Scanner scanner;
-
+    IValidador validador;
     Map<String, String> menuOptions;
 
-    public ApplicationMenu(Scanner scanner){
+    public ApplicationMenu(Scanner scanner, IValidador validador){
         this.scanner = scanner;
         this.LOGGER = Logger.getLogger(this.getClass().getSimpleName());
         this.menuOptions = createMenu();
+        this.validador = validador;
     }
 
     private Map<String, String> createMenu(){
         var menu = new HashMap<String, String>();
         menu.put("0","Fechar");
-        menu.put("1","Empresas me conformidades");
+        menu.put("1","Empresas em conformidades");
         menu.put("2","Empresas em nao conformidades");
         return menu;
     }
 
     public void showMenu(){
 
-        String validOption = null;
+        String validOption;
         var userOption = "0";
         var sair = false;
         do {
@@ -44,8 +47,23 @@ public class ApplicationMenu {
             else
                 sair = menuOptions.get(userOption).equals(menuOptions.get("0"));
 
+            execute(userOption, sair);
+
         } while(!sair);
 
+    }
+
+    private void execute(String userOption, boolean sair) {
+        if(!sair){
+            switch (userOption){
+                case "1":
+                    this.validador.buscarEmpresasEmConformidade();
+                    break;
+                case "2":
+                    this.validador.buscarEmpresasEmNaoConformidade();
+                    break;
+            }
+        }
     }
 
 }
