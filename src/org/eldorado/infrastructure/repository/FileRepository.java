@@ -22,5 +22,5 @@ public abstract class FileRepository<T> implements IFileRepository<T>{
     public abstract T read();
 
     @Override
-    public abstract List<T> readAll(File file);
+    public abstract List<T> readAll();
 }

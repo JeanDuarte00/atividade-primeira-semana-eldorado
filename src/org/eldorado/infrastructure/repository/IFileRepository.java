@@ -5,6 +5,6 @@ import java.util.List;
 public interface IFileRepository<T> {
     void save(T data);
     T read();
-    List<T> readAll(File file);
+    List<T> readAll();
 }
 
