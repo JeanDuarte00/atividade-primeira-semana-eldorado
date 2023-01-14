@@ -6,8 +6,6 @@ import org.eldorado.infrastructure.database.fileDatabase.FileDatabase;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -16,9 +14,11 @@ import java.util.stream.Stream;
 public class FaturamentoFileDatabase extends FileDatabase<Faturamento> {
 
     Logger LOGGER;
+    List dataFromDisk;
     public FaturamentoFileDatabase(File file) {
         super(file);
         this.LOGGER = Logger.getLogger(this.getClass().getSimpleName());
+        this.dataFromDisk = new ArrayList<Faturamento>();
     }
 
     @Override
@@ -28,6 +28,9 @@ public class FaturamentoFileDatabase extends FileDatabase<Faturamento> {
 
     @Override
     public List<Faturamento> readAll() {
+        if(this.dataFromDisk.size() > 0)
+            return this.dataFromDisk;
+
         BufferedReader reader = new BufferedReader(this.fileReader);
         Stream<String> dataAsString = reader.lines();
 
@@ -37,8 +40,8 @@ public class FaturamentoFileDatabase extends FileDatabase<Faturamento> {
             if(object.isPresent())
                 list.add(object.get());
         });
-
-        return list;
+        this.dataFromDisk = list;
+        return this.dataFromDisk;
     }
 
     private Optional<Faturamento> parseStringToObject(String data) {
@@ -54,7 +57,7 @@ public class FaturamentoFileDatabase extends FileDatabase<Faturamento> {
             parcelas.add(new Parcela(props.get(3), props.get(4)));
             parcelas.add(new Parcela(props.get(5), props.get(6)));
             parcelas.add(new Parcela(props.get(7), props.get(8)));
-            return Optional.of(new Faturamento(dataFaturamento, parcelas));
+            return Optional.of(new Faturamento(chaveEmpresa, dataFaturamento, parcelas));
         } catch (IndexOutOfBoundsException exception){
             LOGGER.warning(exception.getMessage() + "\nInvalid input from file: " + chaveEmpresa);
             return Optional.empty();

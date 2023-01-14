@@ -17,7 +17,10 @@ public class ValidadorEmpresa implements IValidador<Empresa>{
 
     @Override
     public List<Empresa> buscarEmpresasEmConformidade() {
-        return faturamentoRepository.readAll();
+        var fatauramentos = faturamentoRepository.readAll();
+        var notas = notaRepository.readAll();
+
+        return null;
     }
 
     @Override

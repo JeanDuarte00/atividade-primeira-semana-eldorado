@@ -5,27 +5,30 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 public class Nota {
 
     private static Logger LOGGER;
-    UUID id;
+
+    String chaveEmpresa;
+
     LocalDate dataNota;
+
     LocalDate dataEmissao;
+
     double valorNota;
 
-    public Nota(LocalDate dataNota, LocalDate dataEmissao, double valorNota) {
+    public Nota(String chaveEmpresa, LocalDate dataNota, LocalDate dataEmissao, double valorNota) {
         this.LOGGER = Logger.getLogger(this.getClass().getSimpleName());
-        this.id = UUID.randomUUID();
         this.dataNota = dataNota;
         this.dataEmissao = dataEmissao;
         this.valorNota = valorNota;
     }
 
-    public Nota(String dataReferenciaNota, String dataEmissao, String valorNota){
+    public Nota(String chaveEmpresa, String dataReferenciaNota, String dataEmissao, String valorNota){
         this(
+                chaveEmpresa,
                 LocalDate.parse(dataReferenciaNota, DateTimeFormatter.ofPattern("d/M/yyyy")),
                 LocalDate.parse(dataEmissao, DateTimeFormatter.ofPattern("d/M/yyyy")),
                 parseValorParcela(valorNota)

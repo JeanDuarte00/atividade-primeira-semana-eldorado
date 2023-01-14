@@ -1,13 +1,12 @@
 package org.eldorado.infrastructure.database.fileDatabase.impl;
 
+import org.eldorado.domain.faturamento.Faturamento;
 import org.eldorado.domain.faturamento.Parcela;
 import org.eldorado.domain.nota.Nota;
 import org.eldorado.infrastructure.database.fileDatabase.FileDatabase;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -16,9 +15,11 @@ import java.util.stream.Stream;
 public class NotaFileDatabase extends FileDatabase<Nota> {
 
     Logger LOGGER;
+    List dataFromDisk;
     public NotaFileDatabase(File file) {
         super(file);
         this.LOGGER = Logger.getLogger(this.getClass().getSimpleName());
+        this.dataFromDisk = new ArrayList<Faturamento>();
     }
 
     @Override
@@ -28,17 +29,20 @@ public class NotaFileDatabase extends FileDatabase<Nota> {
 
     @Override
     public List<Nota> readAll() {
+        if(this.dataFromDisk.size() > 0)
+            return this.dataFromDisk;
+
         BufferedReader reader = new BufferedReader(this.fileReader);
         Stream<String> dataAsString = reader.lines();
 
         var list = new ArrayList<Nota>();
-        dataAsString.forEach(data -> {
+        dataAsString.parallel().forEach(data -> {
             var object = parseStringToObject(data);
             if(object.isPresent())
                 list.add(object.get());
         });
-
-        return list;
+        this.dataFromDisk = list;
+        return this.dataFromDisk;
     }
 
     private Optional<Nota> parseStringToObject(String data) {
@@ -54,7 +58,7 @@ public class NotaFileDatabase extends FileDatabase<Nota> {
             dataReferenciaNota = "1/"+props.get(1)+"/"+props.get(2);
             valorNota = props.get(3);
             dataEmissao = props.get(4);
-            return Optional.of(new Nota(dataReferenciaNota, dataEmissao, valorNota));
+            return Optional.of(new Nota(chaveEmpresa, dataReferenciaNota, dataEmissao, valorNota));
         } catch (Exception exception){
             LOGGER.warning(exception.getMessage() + "\nInvalid input from file: " + chaveEmpresa);
             return Optional.empty();

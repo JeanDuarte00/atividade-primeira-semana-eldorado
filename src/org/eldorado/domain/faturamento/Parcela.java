@@ -5,19 +5,18 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 public class Parcela {
 
     private static Logger LOGGER;
-    UUID id;
+
     LocalDate dataParcela;
+
     double valorParcela;
 
     public Parcela(LocalDate dataParcela, double valorParcela) {
         this.LOGGER = Logger.getLogger(this.getClass().getSimpleName());
-        this.id = UUID.randomUUID();
         this.dataParcela = dataParcela;
         this.valorParcela = valorParcela;
     }

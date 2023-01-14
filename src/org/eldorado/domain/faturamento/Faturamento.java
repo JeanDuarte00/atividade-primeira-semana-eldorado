@@ -3,22 +3,21 @@ package org.eldorado.domain.faturamento;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
 
 public class Faturamento {
 
-    UUID id;
+    String chaveEmpresa;
     LocalDate dataFaturamento;
     List<Parcela> parcelaList;
 
-    public Faturamento(LocalDate dataFaturamento, List<Parcela> parcelaList) {
-        this.id = UUID.randomUUID();
+    public Faturamento(String chaveEmpresa, LocalDate dataFaturamento, List<Parcela> parcelaList) {
+        this.chaveEmpresa = chaveEmpresa;
         this.dataFaturamento = dataFaturamento;
         this.parcelaList = parcelaList;
     }
 
-    public Faturamento(String dataFaturamento, List<Parcela> parcelaList){
-        this(LocalDate.parse(dataFaturamento, DateTimeFormatter.ofPattern("d/M/yyyy")), parcelaList);
+    public Faturamento(String chaveEmpresa, String dataFaturamento, List<Parcela> parcelaList){
+        this(chaveEmpresa, LocalDate.parse(dataFaturamento, DateTimeFormatter.ofPattern("d/M/yyyy")), parcelaList);
     }
 
 
