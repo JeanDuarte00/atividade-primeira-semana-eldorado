@@ -22,6 +22,6 @@ public class ValidadorEmpresa implements IValidador<Empresa>{
 
     @Override
     public List<Empresa> buscarEmpresasEmNaoConformidade() {
-        return null;
+        return notaRepository.readAll();
     }
 }

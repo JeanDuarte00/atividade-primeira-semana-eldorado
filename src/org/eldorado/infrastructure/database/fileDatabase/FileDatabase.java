@@ -6,21 +6,21 @@ import java.util.logging.Logger;
 
 public abstract class FileDatabase<T> implements IFileDatabase<T> {
 
-    FileWriter writer;
-    protected FileReader reader;
+    FileWriter fileWriter;
+    protected FileReader fileReader;
     Logger LOGGER;
     public FileDatabase(File file){
         this.LOGGER = Logger.getLogger("PersonCreatorCli");
         try {
-            writer = new FileWriter(file, true);
-            reader = new FileReader(file);
+            fileWriter = new FileWriter(file, true);
+            fileReader = new FileReader(file);
         } catch (IOException e) {
             LOGGER.warning("Error while creating database file.");
         }
     }
     public void save(T data){
         try {
-            BufferedWriter writer = new BufferedWriter(this.writer);
+            BufferedWriter writer = new BufferedWriter(this.fileWriter);
             writer.append(data.toString() + "\n");
             writer.close();
         } catch (IOException e) {
@@ -32,5 +32,5 @@ public abstract class FileDatabase<T> implements IFileDatabase<T> {
     public abstract T read();
 
     @Override
-    public abstract List<T> readAll(File file);
+    public abstract List<T> readAll();
 }

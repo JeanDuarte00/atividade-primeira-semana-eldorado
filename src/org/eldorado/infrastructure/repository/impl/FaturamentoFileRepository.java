@@ -1,23 +1,24 @@
 package org.eldorado.infrastructure.repository.impl;
 
+import org.eldorado.domain.faturamento.Faturamento;
 import org.eldorado.infrastructure.database.fileDatabase.IFileDatabase;
 import org.eldorado.infrastructure.repository.FileRepository;
 
 import java.util.List;
 
-public class FaturamentoFileRepository extends FileRepository {
+public class FaturamentoFileRepository extends FileRepository<Faturamento> {
 
     public FaturamentoFileRepository(IFileDatabase database) {
         super(database);
     }
 
     @Override
-    public Object read() {
-        return null;
+    public Faturamento read() {
+        return this.database.read();
     }
 
     @Override
-    public List readAll() {
-        return null;
+    public List<Faturamento> readAll() {
+        return this.database.readAll();
     }
 }

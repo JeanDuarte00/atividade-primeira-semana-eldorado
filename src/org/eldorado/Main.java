@@ -16,8 +16,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        File fileFaturamento = new File("./database.txt");
-        File fileNota = new File("./database.txt");
+        File fileFaturamento = new File("./faturamento.txt");
+        File fileNota = new File("./nota.txt");
 
         IFileDatabase databaseFaturamento = new FaturamentoFileDatabase(fileFaturamento);
         IFileDatabase databaseNota = new NotaFileDatabase(fileNota);

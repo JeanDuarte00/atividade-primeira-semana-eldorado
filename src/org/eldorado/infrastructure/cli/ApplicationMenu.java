@@ -2,7 +2,10 @@ package org.eldorado.infrastructure.cli;
 
 import org.eldorado.usecase.empresa.validador.IValidador;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class ApplicationMenu {

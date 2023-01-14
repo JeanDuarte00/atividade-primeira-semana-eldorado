@@ -3,12 +3,11 @@ package org.eldorado.infrastructure.repository;
 
 import org.eldorado.infrastructure.database.fileDatabase.IFileDatabase;
 
-import java.io.File;
 import java.util.List;
 
 public abstract class FileRepository<T> implements IFileRepository<T>{
 
-    protected IFileDatabase database;
+    protected IFileDatabase<T> database;
     public FileRepository(IFileDatabase database){
         this.database = database;
     }
