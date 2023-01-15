@@ -1,11 +1,12 @@
 package org.eldorado.usecase.empresa.validador;
 
+import java.time.Year;
 import java.util.List;
 
 public interface IValidador<T> {
 
-    List<T> buscarEmpresasEmConformidade();
+    List<T> buscarEmpresasEmConformidade(Year ano);
 
-    List<T> buscarEmpresasEmNaoConformidade();
+    List<T> buscarEmpresasEmNaoConformidade(Year ano);
 
 }

@@ -6,6 +6,7 @@ import org.eldorado.infrastructure.database.fileDatabase.FileDatabase;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -47,7 +48,7 @@ public class FaturamentoFileDatabase extends FileDatabase<Faturamento> {
     private Optional<Faturamento> parseStringToObject(String data) {
         List parcelas = new LinkedList<Parcela>();
         String dataFaturamento = null;
-        var valuesAsArray = data.split(";",9);
+        var valuesAsArray = data.split(";");
         var props = Arrays.stream(valuesAsArray).collect(Collectors.toList());
         var chaveEmpresa = props.get(0);
 
@@ -58,8 +59,8 @@ public class FaturamentoFileDatabase extends FileDatabase<Faturamento> {
             parcelas.add(new Parcela(props.get(5), props.get(6)));
             parcelas.add(new Parcela(props.get(7), props.get(8)));
             return Optional.of(new Faturamento(chaveEmpresa, dataFaturamento, parcelas));
-        } catch (IndexOutOfBoundsException exception){
-            LOGGER.warning(exception.getMessage() + "\nInvalid input from file: " + chaveEmpresa);
+        } catch (IndexOutOfBoundsException | DateTimeParseException exception){
+            LOGGER.warning(exception.getMessage() + "\nInvalid input from: " + chaveEmpresa);
             return Optional.empty();
         }
     }

@@ -21,6 +21,7 @@ public class Nota {
 
     public Nota(String chaveEmpresa, LocalDate dataNota, LocalDate dataEmissao, double valorNota) {
         this.LOGGER = Logger.getLogger(this.getClass().getSimpleName());
+        this.chaveEmpresa = chaveEmpresa;
         this.dataNota = dataNota;
         this.dataEmissao = dataEmissao;
         this.valorNota = valorNota;
@@ -46,5 +47,30 @@ public class Nota {
         } finally {
             return valor;
         }
+    }
+
+    public String getChaveEmpresa() {
+        return chaveEmpresa;
+    }
+
+    public LocalDate getDataNota() {
+        return dataNota;
+    }
+
+    public LocalDate getDataEmissao() {
+        return dataEmissao;
+    }
+
+    public double getValorNota() {
+        return valorNota;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                " dataNota=" + dataNota +
+                ", dataEmissao=" + dataEmissao +
+                ", valorNota=" + valorNota +
+                '}';
     }
 }

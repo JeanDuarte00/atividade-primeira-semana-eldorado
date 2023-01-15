@@ -2,10 +2,8 @@ package org.eldorado.infrastructure.cli;
 
 import org.eldorado.usecase.empresa.validador.IValidador;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
+import java.time.Year;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class ApplicationMenu {
@@ -45,27 +43,37 @@ public class ApplicationMenu {
             userOption = this.scanner.nextLine();
             validOption = menuOptions.get(userOption);
 
-            if(Objects.isNull(validOption))
+            if(Objects.isNull(validOption)) {
                 LOGGER.warning("Opcao escolhida e invalida. tente novamente.");
-            else
+            } else {
                 sair = menuOptions.get(userOption).equals(menuOptions.get("0"));
+            }
 
-            execute(userOption, sair);
+            if(!sair){
+                var anoFiltro = getFiltroPorAno();
+                var resultado = execute(userOption, anoFiltro);
+                System.out.println(resultado);
+            }
 
         } while(!sair);
 
     }
 
-    private void execute(String userOption, boolean sair) {
-        if(!sair){
-            switch (userOption){
-                case "1":
-                    this.validador.buscarEmpresasEmConformidade();
-                    break;
-                case "2":
-                    this.validador.buscarEmpresasEmNaoConformidade();
-                    break;
-            }
+    private Year getFiltroPorAno(){
+        System.out.print("Filtar por qual ano?: ");
+        var ano = this.scanner.nextLine();
+        return Year.parse(ano);
+    }
+
+    private Optional<List> execute(String userOption, Year ano) {
+
+        switch (userOption){
+            case "1":
+                return Optional.of(this.validador.buscarEmpresasEmConformidade(ano));
+            case "2":
+                return Optional.of(this.validador.buscarEmpresasEmNaoConformidade(ano));
+            default:
+                return Optional.empty();
         }
     }
 

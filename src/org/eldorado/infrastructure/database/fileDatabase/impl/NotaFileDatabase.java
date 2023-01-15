@@ -60,7 +60,7 @@ public class NotaFileDatabase extends FileDatabase<Nota> {
             dataEmissao = props.get(4);
             return Optional.of(new Nota(chaveEmpresa, dataReferenciaNota, dataEmissao, valorNota));
         } catch (Exception exception){
-            LOGGER.warning(exception.getMessage() + "\nInvalid input from file: " + chaveEmpresa);
+            LOGGER.warning(exception.getMessage() + "\nInvalid input from: " + chaveEmpresa);
             return Optional.empty();
         }
     }

@@ -11,9 +11,9 @@ public class Parcela {
 
     private static Logger LOGGER;
 
-    LocalDate dataParcela;
+    private LocalDate dataParcela;
 
-    double valorParcela;
+    private double valorParcela;
 
     public Parcela(LocalDate dataParcela, double valorParcela) {
         this.LOGGER = Logger.getLogger(this.getClass().getSimpleName());
@@ -39,5 +39,21 @@ public class Parcela {
         } finally {
             return valor;
         }
+    }
+
+    public LocalDate getDataParcela() {
+        return dataParcela;
+    }
+
+    public double getValorParcela() {
+        return valorParcela;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                " dataParcela=" + dataParcela +
+                ", valorParcela=" + valorParcela +
+                '}';
     }
 }
